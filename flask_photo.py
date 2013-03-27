@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template
+from tools import getFromMongo
 
 app = Flask(__name__)
 
@@ -13,7 +14,8 @@ def photographers():
 
 @app.route('/decorators/')
 def decorators():
-    return render_template('decor.html')
+    photos = getFromMongo(base='photos', coll='photos', split=5)
+    return render_template('decor.html', photos = photos)
 
 
 if __name__ == '__main__':

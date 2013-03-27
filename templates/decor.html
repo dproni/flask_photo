@@ -1,59 +1,18 @@
 {% extends "base.html" %}
 {% block body %}
     <div class="span10">
+        {% for photo_block in photos %}
         <div class="row-fluid">
+            {% for photo in photo_block %}
             <div class="span2">
-                <img src="http://placekitten.com/200/200">
+                <a href="{{ photo['link'] }}">
+                    <img src="{{ photo['thumbnail'] }}" alt="{{ photo['title'] }}">
+                </a>
             </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
+            {% endfor %}
         </div><!--/row-->
         <hr>
-        <div class="row-fluid">
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-        </div><!--/row-->
-        <hr>
-        <div class="row-fluid">
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-        </div><!--/row-->
+        {% endfor %}
     </div><!--/span-->
     </div><!--/row-->
 
