@@ -1,79 +1,22 @@
 {% extends "base.html" %}
 {% block body %}
-    <div class="span10">
-        <div class="row-fluid">
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-        </div><!--/row-->
-        <hr>
-        <div class="row-fluid">
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-        </div><!--/row-->
-        <hr>
-        <div class="row-fluid">
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-        </div><!--/row-->
-        <hr>
-        <div class="row-fluid">
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-            <div class="span2">
-                <img src="http://placekitten.com/200/200">
-            </div><!--/span-->
-        </div><!--/row-->
-    </div><!--/span-->
-    </div><!--/row-->
+<div class="span10"">
+{% for photo_block in photos %}
 
+    <div class="row">
+        {% for photo in photo_block %}
+        <div class="span2">
+            <a href="{{ url_for('person', id=photo['album']) }}">
+                <img src="{{ photo['thumbnail'] }}" alt="{{ photo['title'] }}" class="img-circle thumb">
+            </a>
+        </div><!--/span-->
+        {% endfor %}
+    </div><!--/row-->
     <hr>
+
+    {% endfor %}
+</div><!--/span-->
+</div><!--/row-->
+
+<hr>
 {% endblock %}

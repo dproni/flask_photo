@@ -14,11 +14,21 @@ def split_seq(seq, size):
         newseq.append(temp_seq)
     return newseq
 
-def getFromMongo(base='photos', coll=None, split=False):
+def db(base=None, coll=None):
+    conn = pymongo.Connection('localhost', 27017)
+    if base and coll:
+        base = conn[base]
+        coll = base[coll]
+        return coll
+
+def getFromMongo(base='photos', coll=None, split=False, search=None):
     conn = pymongo.Connection('localhost', 27017)
     db = conn[base]
     coll = db[coll]
-    photo = [i for i in coll.find()]
+    if search:
+        photo = [i for i in coll.find(search)]
+    else:
+        photo = [i for i in coll.find()]
     if split:
         collection = split_seq(photo, split)
     else:

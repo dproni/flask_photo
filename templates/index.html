@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 {% block body %}
-    <hr>
+{% if current_user.is_authenticated() %}
+Welcome, {{ current_user.name }} | <a href="{{ url_for('logout') }}">log out</a>
+{% else %}
+You are not logged in | <a href="{{ url_for('login') }}">log in</a>
+{% endif %}
+</div>
+{% for message in get_flashed_messages() %}
+<div class=flash>{{ message }}</div>
+{% endfor %}
 {% endblock %}

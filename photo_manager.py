@@ -23,8 +23,9 @@ class PicasaPhotos(object):
             data = dict()
             data['title'] = album.title.text
             data['count'] = album.numphotos.text
-            data['description'] = album.gphoto_id.text
-            data['link'] = album.GetHtmlLink().href
+            data['description'] = album.media.description.text
+            data['album'] = int(album.gphoto_id.text)
+            data['thumbnail'] = album.media.thumbnail[0].url
             album_list.append(data)
         return album_list
 
@@ -39,7 +40,7 @@ class PicasaPhotos(object):
         for photo in photos.entry:
             data = dict()
             data['title'] = photo.title.text
-            data['album'] = album
+            data['album'] = int(album)
             data['thumbnail'] = photo.media.thumbnail[0].url
             data['link'] = photo.content.src
             photo_list.append(data)
@@ -61,11 +62,12 @@ coll.remove({})
 for album in album_list:
     coll.save(album)
 
-album = '5854564930649852097'
+album_list = [i['album'] for i in coll.find()]
 coll = db['photos']
 coll.remove({})
-for photo in a.get_photos(album):
-    coll.save(photo)
+for album in album_list:
+    for photo in a.get_photos(album):
+        coll.save(photo)
 
 conn.close()
 

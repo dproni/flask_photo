@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="span10">
+    <div class="row-fluid">
+        <div id="status"></div>
+        <div id="content">
+            <div id="editable" contentEditable="true">{{ content|safe}}</div>
+            <button id="save">Save</button>
+        </div>
+
+    </div>
+    </div><!--/row-->
+</div><!--/span-->
+</div><!--/row-->
+
+{% endblock %}

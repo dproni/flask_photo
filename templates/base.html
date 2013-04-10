@@ -10,10 +10,16 @@
     <!-- Le styles -->
     <link href="{{ url_for('static', filename='css/bootstrap-responsive.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <style type="text/css">
         body {
             padding-bottom: 40px;
             padding-top: 60px;
+            background: url("{{ url_for('static', filename='img/bg.jpg') }}") no-repeat center center fixed;
+            -moz-background-size: cover;
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
         }
 
         @media (min-width: 979px) {
@@ -32,6 +38,32 @@
                 padding-right: 5px;
             }
         }
+        .thumb {
+            filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 3.5+ */
+            filter: gray; /* IE6-9 */
+            -webkit-filter: grayscale(100%); /* Chrome 19+ & Safari 6+ */
+            -webkit-transition: all 300ms;
+        }
+
+        #title, #description {
+            font-family: comic-sans, 'Ubuntu', sans-serif;
+            background-color: white;
+            padding: 0.5em;
+        }
+
+        hr {
+            padding: 0px;
+            border: none;
+        }
+
+        #content {
+            background-color: white;
+        }
+
+        .thumb:hover {
+            filter: none;
+            -webkit-filter: grayscale(0%);
+        }
     </style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -43,12 +75,11 @@
 
 <body>
 
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="span2">
-            <div class="well sidebar-nav">
+            <div class="sidebar-nav">
                 <ul class="nav nav-list">
-                    <li class="nav-header">Sidebar</li>
                     <li {% if request.path == url_for('index') %}class="active"{% endif %}>
                         <a href="{{ url_for('index') }}">{{ url_for('index') }}</a>
                     </li>
@@ -58,24 +89,73 @@
                     <li {% if request.path == url_for('decorators') %}class="active"{% endif %}>
                         <a href="{{ url_for('decorators') }}">{{ url_for('decorators') }}</a>
                     </li>
+                    <li {% if request.path == url_for('test') %}class="active"{% endif %}>
+                        <a href="{{ url_for('test') }}">{{ url_for('test') }}</a>
+                    </li>
                 </ul>
             </div><!--/.well -->
         </div><!--/span-->
     {% block body %}{% endblock %}
-    <footer>
-        <p>&copy; Company 2013</p>
-    </footer>
-
 </div><!--/.fluid-container-->
 
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-lightbox/0.5/bootstrap-lightbox.js"></script>
+<script src="http://yandex.st/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://raw.github.com/freqdec/slabText/master/js/jquery.slabtext.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#editable").click(function (e) {
+                $("#save").show();
+                e.stopPropagation();
+            });
 
-    {% for message in get_flashed_messages() %}
-        <div class=flash>{{ message }}</div>
-    {% endfor %}
+            $(document).click(function() {
+                $("#save").hide();
+            });
 
+            $("#save").click(function (e) {
+                var content = $('#editable').html();
+                $.ajax({
+                    url: "{{ url_for('test') }}",
+                    type: 'POST',
+                    data: {
+                        content: content
+                    },
+                    success:function (data) {
+                        if (data == '1')
+                        {
+                            $("#status")
+                                    .addClass("success")
+                                    .html("Data saved successfully")
+                                    .fadeIn('slow')
+                                    .delay(3000)
+                                    .fadeOut('slow');
+                        }
+                        else
+                        {
+                            $("#status")
+                                    .addClass("error")
+                                    .html("Error, data could not be saved")
+                                    .fadeIn('slow')
+                                    .delay(3000)
+                                    .fadeOut('slow');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 </body>
 </html>
