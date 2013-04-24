@@ -99,6 +99,10 @@ def test():
         content = mongo.db.content.find_one({'page':1}) or {'content': ' '}
         return render_template('test.html', content=content['content'])
 
+@app.route('/pic/', methods=['GET'])
+def return_pic():
+    return 'http://lworkshop.com/img/logo.png'
+
 @app.route('/photographers/')
 def photographers():
     photos = getFromMongo(base='photos', coll='albums', split=5)
@@ -124,4 +128,4 @@ if __name__ == '__main__':
     # Secret key needed to use sessions.
     app.secret_key = 'N4BUdSXUzHxNoO8g'
     app.debug = True
-    app.run()
+    app.run(host='192.168.0.103')
